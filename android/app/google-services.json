@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "636980679197",
+    "project_id": "gamexchange-321100",
+    "storage_bucket": "gamexchange-321100.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:636980679197:android:7ec73ab59550cd0f516cf4",
+        "android_client_info": {
+          "package_name": "com.example.gamexchange"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "636980679197-5u95aklmjnm2n3n3j01lvh9ji80jnshv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXzOo7Acuh7Jxo3CPn746THUkECYvlheg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "636980679197-5u95aklmjnm2n3n3j01lvh9ji80jnshv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
