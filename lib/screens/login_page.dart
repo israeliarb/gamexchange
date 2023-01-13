@@ -1,144 +1,216 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gamexchange/constants/colors.dart';
 import 'package:gamexchange/constants/custom_border_radius.dart';
 import 'package:gamexchange/constants/font_size.dart';
 import 'package:gamexchange/constants/custom_sizes.dart';
 import 'package:gamexchange/constants/spacing_sizes.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:gamexchange/screens/password_recovery_page.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  final VoidCallback showRegisterPage;
+  const LoginPage({super.key, required this.showRegisterPage});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
+  //Text controllers
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  Future signIn() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
+    );
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColor.customLightGrey,
+      backgroundColor: CustomColor.customBlack,
       body: SafeArea(
         child: Center(
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Image(image: AssetImage('assets/icon/icon.png'), height: 150),
-            const SizedBox(height: CustomSizes.size_75),
-            //Hello again!
-            const Text(
-              'Olá novamente!',
-              style: TextStyle(
-                fontSize: FontSize.xxl,
-                fontWeight: FontWeight.bold,
+          child: SingleChildScrollView(
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              const Icon(
+                Icons.videogame_asset_outlined,
+                size: CustomSizes.size_100,
               ),
-            ),
-
-            const SizedBox(height: SpacingSizes.sm_10),
-
-            const Text(
-              'Bem vindo de volta, sentimos sua falta!',
-              style: TextStyle(
-                fontSize: FontSize.l,
-              ),
-            ),
-
-            const SizedBox(height: SpacingSizes.l_32),
-
-            //Email TextField
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: CustomSizes.size_25),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: CustomColor.customGrey,
-                  borderRadius: BorderRadius.circular(CustomBorderRadius.md_12),
+              //Image(image: AssetImage('assets/icon/icon.png'), height: 150),
+              const SizedBox(height: CustomSizes.size_50),
+              //Hello again!
+              const Text(
+                'Olá novamente',
+                style: TextStyle(
+                  fontSize: FontSize.xxl,
+                  fontWeight: FontWeight.bold,
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.only(left: CustomSizes.size_20),
-                  child: TextField(
-                    style: TextStyle(color: CustomColor.customWhite),
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintStyle: TextStyle(color: CustomColor.customWhite),
-                      hintText: 'Email',
+              ),
+
+              const SizedBox(height: SpacingSizes.sm_10),
+
+              const Text(
+                'Bem vindo de volta, sentimos sua falta!',
+                style: TextStyle(
+                  fontSize: FontSize.l,
+                ),
+              ),
+
+              const SizedBox(height: SpacingSizes.l_32),
+
+              //Email TextField
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: CustomSizes.size_25),
+                child: TextField(
+                  controller: _emailController,
+                  style: const TextStyle(color: CustomColor.customWhite),
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(color: CustomColor.customLightGrey),
+                      borderRadius:
+                          BorderRadius.circular(CustomBorderRadius.md_12),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(color: CustomColor.customBlue),
+                      borderRadius:
+                          BorderRadius.circular(CustomBorderRadius.md_12),
+                    ),
+                    hintStyle: const TextStyle(color: CustomColor.customWhite),
+                    hintText: 'Email',
+                    filled: true,
+                    fillColor: CustomColor.customDarkGrey,
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: SpacingSizes.sm_10),
+
+              //Password TextField
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: CustomSizes.size_25),
+                child: TextField(
+                  controller: _passwordController,
+                  obscureText: true,
+                  style: const TextStyle(color: CustomColor.customWhite),
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(color: CustomColor.customLightGrey),
+                      borderRadius:
+                          BorderRadius.circular(CustomBorderRadius.md_12),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(color: CustomColor.customBlue),
+                      borderRadius:
+                          BorderRadius.circular(CustomBorderRadius.md_12),
+                    ),
+                    hintStyle: const TextStyle(color: CustomColor.customWhite),
+                    hintText: 'Password',
+                    filled: true,
+                    fillColor: CustomColor.customDarkGrey,
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: SpacingSizes.sm_10),
+
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: CustomSizes.size_25),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (contex) {
+                            return PasswordRecoveryPage();
+                          }),
+                        );
+                      },
+                      child: const Text(
+                        'Esqueceu sua senha?',
+                        style: TextStyle(
+                          color: CustomColor.customlightBlue,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: SpacingSizes.sm_10),
+
+              //Sign in button
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: CustomSizes.size_25),
+                child: GestureDetector(
+                  onTap: signIn,
+                  child: Container(
+                    padding: const EdgeInsets.all(CustomSizes.size_15),
+                    decoration: BoxDecoration(
+                        color: CustomColor.customBlue,
+                        borderRadius:
+                            BorderRadius.circular(CustomBorderRadius.md_12)),
+                    child: const Center(
+                      child: Text(
+                        'Entrar',
+                        style: TextStyle(
+                          color: CustomColor.customWhite,
+                          fontWeight: FontWeight.bold,
+                          fontSize: FontSize.l,
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
 
-            const SizedBox(height: SpacingSizes.sm_10),
+              const SizedBox(height: SpacingSizes.l_32),
 
-            //Password TextField
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: CustomSizes.size_25),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: CustomColor.customGrey,
-                  borderRadius: BorderRadius.circular(CustomBorderRadius.md_12),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.only(left: CustomSizes.size_20),
-                  child: TextField(
-                    obscureText: true,
-                    style: TextStyle(color: CustomColor.customWhite),
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintStyle: TextStyle(color: CustomColor.customWhite),
-                      hintText: 'Password',
-                    ),
-                  ),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: SpacingSizes.sm_10),
-
-            //Sign in button
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: CustomSizes.size_25),
-              child: Container(
-                padding: const EdgeInsets.all(CustomSizes.size_15),
-                decoration: BoxDecoration(
-                    color: CustomColor.customBlue,
-                    borderRadius:
-                        BorderRadius.circular(CustomBorderRadius.md_12)),
-                child: const Center(
-                  child: Text(
-                    'Entrar',
+              //Not a member? Register now
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Não é um membro?',
                     style: TextStyle(
-                      color: CustomColor.customWhite,
                       fontWeight: FontWeight.bold,
-                      fontSize: FontSize.l,
                     ),
                   ),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: SpacingSizes.l_32),
-
-            //Not a member? Register now
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Não é um membro?',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  ' Crie uma conta agora',
-                  style: TextStyle(
-                    color: CustomColor.customlightBlue,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )
-              ],
-            )
-          ]),
+                  GestureDetector(
+                    onTap: widget.showRegisterPage,
+                    child: Text(
+                      ' Crie uma conta agora',
+                      style: TextStyle(
+                        color: CustomColor.customlightBlue,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
+                ],
+              )
+            ]),
+          ),
         ),
       ),
     );
