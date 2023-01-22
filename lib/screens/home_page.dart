@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:gamexchange/constants/colors.dart';
+import 'package:gamexchange/controllers/user_controller.dart';
+import 'package:gamexchange/models/user_model.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -28,6 +30,13 @@ class _HomePageState extends State<HomePage> {
             },
             color: CustomColor.customBlue,
             child: const Text('Sair'),
+          ),
+          MaterialButton(
+            onPressed: () {
+              getUsers();
+            },
+            color: CustomColor.customBlue,
+            child: const Text('User'),
           )
         ],
       )),

@@ -1,11 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gamexchange/constants/colors.dart';
 import 'package:gamexchange/constants/custom_border_radius.dart';
 import 'package:gamexchange/constants/custom_sizes.dart';
 import 'package:gamexchange/constants/font_size.dart';
 import 'package:gamexchange/constants/spacing_sizes.dart';
+import 'package:gamexchange/controllers/user_controller.dart';
+import 'package:gamexchange/models/user_model.dart';
 
 class RegisterPage extends StatefulWidget {
   final VoidCallback showLoginPage;
@@ -27,6 +27,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final _cpfController = TextEditingController();
   final _nameController = TextEditingController();
   final _nickController = TextEditingController();
+  String _userId = ' ';
 
   @override
   void dispose() {
@@ -38,43 +39,6 @@ class _RegisterPageState extends State<RegisterPage> {
     _nameController.dispose();
     _nickController.dispose();
     super.dispose();
-  }
-
-  Future signUp() async {
-    //Create user
-    if (passwordConfirmed()) {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-
-      //Add user details
-      addUserDetails(
-        _nameController.text.trim(),
-        _nickController.text.trim(),
-        _cpfController.text.trim(),
-        _phoneController.text.trim(),
-      );
-    }
-  }
-
-  Future addUserDetails(
-      String name, String nick, String cpf, String phone) async {
-    await FirebaseFirestore.instance.collection('users').add({
-      'name': name,
-      'nick': nick,
-      'cpf': cpf,
-      'phone': phone,
-    });
-  }
-
-  bool passwordConfirmed() {
-    if (_passwordController.text.trim() ==
-        _confirmpasswordController.text.trim()) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   @override
@@ -324,7 +288,18 @@ class _RegisterPageState extends State<RegisterPage> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: CustomSizes.size_25),
                 child: GestureDetector(
-                  onTap: signUp,
+                  onTap: () {
+                    signUp(
+                      _userId,
+                      _passwordController.text.trim(),
+                      _confirmpasswordController.text.trim(),
+                      _emailController.text.trim(),
+                      _nameController.text.trim(),
+                      _nickController.text.trim(),
+                      _cpfController.text.trim(),
+                      _phoneController.text.trim(),
+                    );
+                  },
                   child: Container(
                     padding: const EdgeInsets.all(CustomSizes.size_15),
                     decoration: BoxDecoration(
