@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gamexchange/main.dart';
 import 'package:gamexchange/models/user_model.dart';
-
-final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 Future signUp(String id, String password, String passwordConfirmation,
     String email, String name, String nick, String cpf, String phone) async {
@@ -32,7 +31,7 @@ Future signUp(String id, String password, String passwordConfirmation,
 }
 
 void addUserDetails(UserModel user) async {
-  await _firestore.collection('users').add({
+  await db.collection('users').add({
     'name': user.name,
     'nick': user.nick,
     'cpf': user.cpf,
@@ -40,14 +39,15 @@ void addUserDetails(UserModel user) async {
   });
 }
 
+//Get list of users
 Future<List<UserModel>> getUsers() async {
-  final QuerySnapshot snapshot = await _firestore.collection('users').get();
+  final QuerySnapshot snapshot = await db.collection('users').get();
 
   final List<UserModel> users = [];
 
   for (var doc in snapshot.docs) {
     users.add(UserModel(
-      id: doc.reference.id,
+      id: doc.id,
       name: doc['name'],
       nick: doc['nick'],
       cpf: doc['cpf'],

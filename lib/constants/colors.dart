@@ -8,4 +8,5 @@ class CustomColor {
   static const Color customlightBlue = Color(0xFF137ABC);
   static const Color customWhite = Color(0xFFFFFFFF);
   static const Color customBlack = Color(0xFF000000);
+  static const Color customRed = Color(0xFFCF102B);
 }

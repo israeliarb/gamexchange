@@ -1,9 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:gamexchange/auth/main_page.dart';
 import 'package:gamexchange/constants/colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+
+final db = FirebaseFirestore.instance;
+final fb = FirebaseStorage.instance;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
