@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gamexchange/auth/main_page.dart';
 import 'package:gamexchange/constants/colors.dart';
+import 'package:gamexchange/controllers/game_controller.dart';
 import 'package:gamexchange/controllers/user_controller.dart';
 import 'package:gamexchange/screens/game_form.dart';
 
@@ -56,7 +57,21 @@ class _HomePageState extends State<HomePage> {
             },
             color: CustomColor.customBlue,
             child: const Text('Game'),
-          )
+          ),
+          MaterialButton(
+            onPressed: () {
+              getMyGames(currentUser.uid);
+            },
+            color: CustomColor.customBlue,
+            child: const Text('My games'),
+          ),
+          MaterialButton(
+            onPressed: () {
+              getGameList(currentUser.uid);
+            },
+            color: CustomColor.customBlue,
+            child: const Text('Game List'),
+          ),
         ],
       )),
     );
